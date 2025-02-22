@@ -177,24 +177,42 @@
 
         // Form Validation
         function validateForm() {
-            const negeri = document.getElementById("negeri").value;
-            const lokasi = document.getElementById("lokasi").value;
-            const dokumen = document.getElementById("dokumen").value;
-            const transaksi = document.getElementById("transaksi").value;
-            const kuantiti = document.getElementById("kuantiti").value;
-            const tarikh = document.getElementById("tarikh").value;
-            const namaPenyedia = document.getElementById("nama_penyedia").value;
+    	const formData = new FormData();
+   	 formData.append("negeri", document.getElementById("negeri").value);
+   	 formData.append("lokasi", document.getElementById("lokasi").value);
+   	 formData.append("dokumen", document.getElementById("dokumen").value);
+    	 formData.append("transaksi", document.getElementById("transaksi").value);
+   	 formData.append("kuantiti", document.getElementById("kuantiti").value);
+   	 formData.append("tarikh", document.getElementById("tarikh").value);
+   	 formData.append("nama_penyedia", document.getElementById("nama_penyedia").value);
 
-            if (!negeri || !lokasi || !dokumen || !transaksi || !kuantiti || !tarikh || !namaPenyedia) {
-                alert("DATA TIDAK LENGKAP");
-                return;
-            }
+    	// Check if all fields are filled
+   	 for (let pair of formData.entries()) {
+        if (!pair[1]) {
+            alert("DATA TIDAK LENGKAP");
+            return;
+        }
+    }
 
+    // Send data to Google Sheets
+    fetch("https://script.google.com/macros/s/AKfycbwSwIKoR5AAp1cMxO2EIknjrqBGf7NxddtMrZujbX0sYe8ki3xS9Q7KMnYo8Nv5hK9v/exec", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === "SUCCESS") {
             alert("REKOD BERJAYA");
             document.getElementById("myForm").reset();
-            document.getElementById("tarikh").valueAsDate = new Date(); // Reset date field
+            document.getElementById("tarikh").valueAsDate = new Date(); // Reset date
+        } else {
+            alert("GAGAL MENYIMPAN DATA");
         }
-    </script>
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+	    
 
 </body>
 </html>
