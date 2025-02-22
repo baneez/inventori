@@ -1,104 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INVENTORI JPJ (M)</title>
+    <title>Rekod Inventori JPJ (M)</title>
     <style>
         body {
-            font-family: Nunito;
-            background: linear-gradient(to bottom, #1E3A8A, #4A90E2);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #003399, #6699FF);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-
         .container {
-            background: #fdebd0;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            width: 400px;
+            background: #f8e8c6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
             text-align: center;
         }
-
-        #logo {
-            width: 100px;
+        img {
+            width: 80px;
             margin-bottom: 10px;
         }
-
         h2 {
-            font-family: Nunito;
-	    font-size: 22px;
-            text-transform: uppercase;
-        }
-
-        label {
+            font-family: Georgia, serif;
+            font-size: 18px;
             font-weight: bold;
-            display: block;
-            margin-top: 10px;
-            text-transform: uppercase;
         }
-
+        label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin-top: 10px;
+        }
         select, input {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 14px;
             text-transform: uppercase;
         }
-
         button {
             width: 100%;
             padding: 10px;
-            background-color: #1E3A8A;
+            background: #007bff;
             color: white;
-            font-weight: bold;
-            font-size: 16px;
             border: none;
             border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
             cursor: pointer;
             margin-top: 15px;
-            text-transform: uppercase;
         }
-
         button:hover {
-            background-color: #4A90E2;
+            background: #0056b3;
         }
-
         .dashboard-link {
-            display: block;
-            margin-top: 15px;
+            margin-top: 10px;
             font-weight: bold;
-            color: #1E3A8A;
-            text-decoration: none;
-            text-transform: uppercase;
         }
-
-        .dashboard-link:hover {
-            text-decoration: underline;
-        }
-
-        .footer-text {
-            margin-top: 15px;
+        .note {
             font-size: 12px;
-            color: gray;
+            margin-top: 10px;
+            color: #555;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <img src="https://i.postimg.cc/h4CXXqZd/JPJ-logo.png" alt="Logo" id="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Jabatan_Pengangkutan_Jalan_Malaysia_%28JPJ%29.svg" alt="Logo JPJ">
         <h2>REKOD INVENTORI JPJ (M)</h2>
 
         <form id="myForm">
             <label for="negeri">NEGERI:</label>
-            <select id="negeri" onchange="updateLokasi()">
+            <select id="negeri" name="negeri">
                 <option value="">PILIH NEGERI</option>
                 <option value="Johor">JOHOR</option>
                 <option value="Kedah">KEDAH</option>
@@ -106,136 +87,111 @@
             </select>
 
             <label for="lokasi">LOKASI:</label>
-            <select id="lokasi">
+            <select id="lokasi" name="lokasi">
                 <option value="">PILIH LOKASI</option>
             </select>
 
             <label for="dokumen">DOKUMEN:</label>
-            <select id="dokumen">
+            <select id="dokumen" name="dokumen">
                 <option value="">PILIH DOKUMEN</option>
                 <option value="Invoice">INVOICE</option>
-                <option value="Receipt">RESIT</option>
+                <option value="Resit">RESIT</option>
             </select>
 
             <label for="transaksi">TRANSAKSI:</label>
-            <select id="transaksi">
+            <select id="transaksi" name="transaksi">
                 <option value="">PILIH TRANSAKSI</option>
-                <option value="Purchase">PEMBELIAN</option>
-                <option value="Sale">JUALAN</option>
+                <option value="Pembelian">PEMBELIAN</option>
+                <option value="Jualan">JUALAN</option>
             </select>
 
             <label for="kuantiti">KUANTITI:</label>
-            <input type="number" id="kuantiti">
+            <input type="number" id="kuantiti" name="kuantiti">
 
             <label for="tarikh">TARIKH:</label>
-            <input type="date" id="tarikh" value="">
+            <input type="date" id="tarikh" name="tarikh">
 
             <label for="nama_penyedia">NAMA PENYEDIA:</label>
-            <input type="text" id="nama_penyedia" oninput="convertToUpper(this)">
+            <input type="text" id="nama_penyedia" name="nama_penyedia" oninput="convertToUpper(this)">
 
-            <button type="button" onclick="validateForm()">SUBMIT</button>
+            <button type="button" id="submitBtn">SUBMIT</button>
         </form>
 
-        <a href="your-dashboard-link" class="dashboard-link">DASHBOARD</a>
+        <div class="dashboard-link">
+            <a href="https://your-dashboard-link.com" target="_blank">DASHBOARD</a>
+        </div>
 
-        <p class="footer-text">* Pastikan semua maklumat diisi dengan lengkap sebelum dihantar.</p>
+        <div class="note">
+            * Pastikan semua maklumat diisi dengan lengkap sebelum dihantar.
+        </div>
     </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    // NEGERI & LOKASI Mapping
-    const lokasiData = {
-        "Johor": ["JOHOR BAHRU", "MUAR", "BATU PAHAT"],
-        "Kedah": ["ALOR SETAR", "SUNGAI PETANI", "KULIM"],
-        "Selangor": ["SHAH ALAM", "PETALING JAYA", "KLANG"]
-    };
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Auto-uppercase untuk Nama Penyedia
+            function convertToUpper(input) {
+                input.value = input.value.toUpperCase();
+            }
 
-    function updateLokasi() {
-        const negeriSelect = document.getElementById("negeri");
-        const lokasiSelect = document.getElementById("lokasi");
+            // Set default tarikh ke hari ini
+            document.getElementById("tarikh").valueAsDate = new Date();
 
-        if (!negeriSelect || !lokasiSelect) {
-            console.error("Dropdown tidak dijumpai!");
-            return;
-        }
+            // Data Negeri & Lokasi
+            const lokasiData = {
+                "Johor": ["JOHOR BAHRU", "MUAR", "BATU PAHAT"],
+                "Kedah": ["ALOR SETAR", "SUNGAI PETANI", "KULIM"],
+                "Selangor": ["SHAH ALAM", "PETALING JAYA", "KLANG"]
+            };
 
-        const selectedNegeri = negeriSelect.value;
+            function updateLokasi() {
+                const negeriSelect = document.getElementById("negeri");
+                const lokasiSelect = document.getElementById("lokasi");
 
-        console.log("Negeri dipilih:", selectedNegeri);
+                lokasiSelect.innerHTML = '<option value="">PILIH LOKASI</option>';
 
-        // Kosongkan pilihan lokasi
-        lokasiSelect.innerHTML = '<option value="">PILIH LOKASI</option>';
+                if (lokasiData[negeriSelect.value]) {
+                    lokasiData[negeriSelect.value].forEach(lokasi => {
+                        let option = document.createElement("option");
+                        option.value = lokasi;
+                        option.textContent = lokasi;
+                        lokasiSelect.appendChild(option);
+                    });
+                }
+            }
 
-        if (selectedNegeri in lokasiData) {
-            lokasiData[selectedNegeri].forEach(lokasi => {
-                let option = document.createElement("option");
-                option.value = lokasi;
-                option.textContent = lokasi;
-                lokasiSelect.appendChild(option);
-            });
-            console.log("Lokasi ditambah:", lokasiData[selectedNegeri]);
-        }
-    }
+            document.getElementById("negeri").addEventListener("change", updateLokasi);
 
-    // Pastikan fungsi dipanggil bila dropdown NEGERI berubah
-    const negeriDropdown = document.getElementById("negeri");
-    if (negeriDropdown) {
-        negeriDropdown.addEventListener("change", updateLokasi);
-    } else {
-        console.error("Dropdown NEGERI tidak dijumpai!");
-    }
-});
+            // Validasi Form & Hantar ke Google Sheets
+            function validateForm() {
+                const formData = new FormData(document.getElementById("myForm"));
 
+                for (let pair of formData.entries()) {
+                    if (!pair[1]) {
+                        alert("DATA TIDAK LENGKAP");
+                        return;
+                    }
+                }
 
-	
-        // Auto-uppercase for NAMA PENYEDIA
-        function convertToUpper(input) {
-            input.value = input.value.toUpperCase();
-        }
+                fetch("https://script.google.com/macros/s/AKfycbwSwIKoR5AAp1cMxO2EIknjrqBGf7NxddtMrZujbX0sYe8ki3xS9Q7KMnYo8Nv5hK9v/exec", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.trim() === "SUCCESS") {
+                        alert("REKOD BERJAYA");
+                        document.getElementById("myForm").reset();
+                        document.getElementById("tarikh").valueAsDate = new Date();
+                    } else {
+                        alert("GAGAL MENYIMPAN DATA");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
 
-        // Set default date to today
-        document.getElementById("tarikh").valueAsDate = new Date();
-
-        // Form Validation
-        function validateForm() {
-    	const formData = new FormData();
-   	 formData.append("negeri", document.getElementById("negeri").value);
-   	 formData.append("lokasi", document.getElementById("lokasi").value);
-   	 formData.append("dokumen", document.getElementById("dokumen").value);
-    	 formData.append("transaksi", document.getElementById("transaksi").value);
-   	 formData.append("kuantiti", document.getElementById("kuantiti").value);
-   	 formData.append("tarikh", document.getElementById("tarikh").value);
-   	 formData.append("nama_penyedia", document.getElementById("nama_penyedia").value);
-
-    	// Check if all fields are filled
-   	 for (let pair of formData.entries()) {
-	 if (!pair[1]) {
-            alert("DATA TIDAK LENGKAP");
-            return;
-         }
-        }
-
-    // Send data to Google Sheets
-    	console.log("Submitting form...");
-	fetch("https://script.google.com/macros/s/AKfycbwSwIKoR5AAp1cMxO2EIknjrqBGf7NxddtMrZujbX0sYe8ki3xS9Q7KMnYo8Nv5hK9v/exec", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log("Server Response:", data); // Debug di Console
-    	if (data.trim() === "SUCCESS") { // trim() elak masalah extra spaces
-        alert("REKOD BERJAYA");
-        document.getElementById("myForm").reset();
-        document.getElementById("tarikh").valueAsDate = new Date();
-   	 } else {
-        alert("GAGAL MENYIMPAN DATA: " + data);
-        }
-    })
-    .catch(error => console.error("Error:", error));
-}
-
-</script>	    
+            document.getElementById("submitBtn").addEventListener("click", validateForm);
+        });
+    </script>
 
 </body>
 </html>
