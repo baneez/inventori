@@ -154,6 +154,8 @@
             const lokasiSelect = document.getElementById("lokasi");
             const selectedNegeri = negeriSelect.value;
 
+	    console.log("Negeri dipilih:", selectedNegeri); // Debug
+
             // Reset lokasi dropdown
             lokasiSelect.innerHTML = '<option value="">PILIH LOKASI</option>';
 
@@ -164,6 +166,7 @@
                     option.textContent = lokasi;
                     lokasiSelect.appendChild(option);
                 });
+		console.log("Lokasi ditambah:", lokasiData[selectedNegeri]); // Debug
             }
         }
 
