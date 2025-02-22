@@ -141,38 +141,52 @@
         <p class="footer-text">* Pastikan semua maklumat diisi dengan lengkap sebelum dihantar.</p>
     </div>
 
-    <script>
-        // NEGERI & LOKASI Mapping
-        document.addEventListener("DOMContentLoaded", function() {
-	const lokasiData = {
-            "Johor": ["JOHOR BAHRU", "MUAR", "BATU PAHAT"],
-            "Kedah": ["ALOR SETAR", "SUNGAI PETANI", "KULIM"],
-            "Selangor": ["SHAH ALAM", "PETALING JAYA", "KLANG"]
-        };
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // NEGERI & LOKASI Mapping
+    const lokasiData = {
+        "Johor": ["JOHOR BAHRU", "MUAR", "BATU PAHAT"],
+        "Kedah": ["ALOR SETAR", "SUNGAI PETANI", "KULIM"],
+        "Selangor": ["SHAH ALAM", "PETALING JAYA", "KLANG"]
+    };
 
-        function updateLokasi() {
-            const negeriSelect = document.getElementById("negeri");
-            const lokasiSelect = document.getElementById("lokasi");
-            const selectedNegeri = negeriSelect.value;
+    function updateLokasi() {
+        const negeriSelect = document.getElementById("negeri");
+        const lokasiSelect = document.getElementById("lokasi");
 
-	    console.log("Negeri dipilih:", selectedNegeri); // Debug
-
-            // Reset lokasi dropdown
-            lokasiSelect.innerHTML = '<option value="">PILIH LOKASI</option>';
-
-            if (selectedNegeri && lokasiData[selectedNegeri]) {
-                lokasiData[selectedNegeri].forEach(lokasi => {
-                    let option = document.createElement("option");
-                    option.value = lokasi;
-                    option.textContent = lokasi;
-                    lokasiSelect.appendChild(option);
-                });
-		console.log("Lokasi ditambah:", lokasiData[selectedNegeri]); // Debug
-            }
+        if (!negeriSelect || !lokasiSelect) {
+            console.error("Dropdown tidak dijumpai!");
+            return;
         }
-	    document.getElementById("negeri").addEventListener("change", updateLokasi);
+
+        const selectedNegeri = negeriSelect.value;
+
+        console.log("Negeri dipilih:", selectedNegeri);
+
+        // Kosongkan pilihan lokasi
+        lokasiSelect.innerHTML = '<option value="">PILIH LOKASI</option>';
+
+        if (selectedNegeri in lokasiData) {
+            lokasiData[selectedNegeri].forEach(lokasi => {
+                let option = document.createElement("option");
+                option.value = lokasi;
+                option.textContent = lokasi;
+                lokasiSelect.appendChild(option);
+            });
+            console.log("Lokasi ditambah:", lokasiData[selectedNegeri]);
+        }
+    }
+
+    // Pastikan fungsi dipanggil bila dropdown NEGERI berubah
+    const negeriDropdown = document.getElementById("negeri");
+    if (negeriDropdown) {
+        negeriDropdown.addEventListener("change", updateLokasi);
+    } else {
+        console.error("Dropdown NEGERI tidak dijumpai!");
+    }
 });
 </script>
+
 	
         // Auto-uppercase for NAMA PENYEDIA
         function convertToUpper(input) {
