@@ -195,18 +195,20 @@
     }
 
     // Send data to Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbwSwIKoR5AAp1cMxO2EIknjrqBGf7NxddtMrZujbX0sYe8ki3xS9Q7KMnYo8Nv5hK9v/exec", {
+    	console.log("Submitting form...");
+	fetch("https://script.google.com/macros/s/AKfycbwSwIKoR5AAp1cMxO2EIknjrqBGf7NxddtMrZujbX0sYe8ki3xS9Q7KMnYo8Nv5hK9v/exec", {
         method: "POST",
         body: formData
     })
     .then(response => response.text())
     .then(data => {
-        if (data === "SUCCESS") {
-            alert("REKOD BERJAYA");
-            document.getElementById("myForm").reset();
-            document.getElementById("tarikh").valueAsDate = new Date(); // Reset date
-        } else {
-            alert("GAGAL MENYIMPAN DATA");
+        console.log("Server Response:", data); // Debug di Console
+    	if (data.trim() === "SUCCESS") { // trim() elak masalah extra spaces
+        alert("REKOD BERJAYA");
+        document.getElementById("myForm").reset();
+        document.getElementById("tarikh").valueAsDate = new Date();
+   	 } else {
+        alert("GAGAL MENYIMPAN DATA: " + data);
         }
     })
     .catch(error => console.error("Error:", error));
