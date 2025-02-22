@@ -188,11 +188,11 @@
 
     	// Check if all fields are filled
    	 for (let pair of formData.entries()) {
-        if (!pair[1]) {
+	 if (!pair[1]) {
             alert("DATA TIDAK LENGKAP");
             return;
+         }
         }
-    }
 
     // Send data to Google Sheets
     	console.log("Submitting form...");
