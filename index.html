@@ -6,7 +6,7 @@
     <title>Inventori JPJ (M)</title>
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #003399, #6699FF);
             display: flex;
             justify-content: center;
@@ -19,7 +19,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            width: 350px;
+            width: 500px;
             text-align: center;
         }
         img {
@@ -27,15 +27,15 @@
             margin-bottom: 10px;
         }
         h2 {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             font-size: 18px;
             font-weight: bold;
         }
         label {
             display: block;
             text-align: left;
-            font-weight: bold;
-            margin-top: 10px;
+            font-weight: normal;
+            margin-top: 15px;
         }
         select, input {
             width: 100%;
@@ -81,7 +81,7 @@
             <label for="negeri">NEGERI:</label>
             <select id="negeri" name="negeri">
                 <option value="">PILIH NEGERI</option>
-                <option value="Johor">JOHOR</option>
+                <option value="JOHOR">JOHOR</option>
                 <option value="Kedah">KEDAH</option>
                 <option value="Selangor">SELANGOR</option>
             </select>
@@ -138,7 +138,7 @@
 
             // Data Negeri & Lokasi
             const lokasiData = {
-                "Johor": ["JOHOR BAHRU", "MUAR", "BATU PAHAT"],
+                "JOHOR": ["JOHOR BAHRU", "MUAR", "BATU PAHAT"],
                 "Kedah": ["ALOR SETAR", "SUNGAI PETANI", "KULIM"],
                 "Selangor": ["SHAH ALAM", "PETALING JAYA", "KLANG"]
             };
