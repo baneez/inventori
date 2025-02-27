@@ -1,92 +1,148 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventori JPJ (M)</title>
+    <title>Rekod Inventori</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 12px;
-            background: linear-gradient(to bottom, #003399, #6699FF);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
+            background: linear-gradient(to bottom, #1e3c72, #6584ba);
+            text-align: center;
             margin: 0;
-            padding-top: 50px;
-            padding-bottom: 50px;
+            padding: 0;
         }
         .container {
-            background: #d6dbdf;
+            background: #e6e6e6;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
             width: 500px;
-            text-align: center;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        img {
-            width: 80px;
-            margin-bottom: 10px;
-        }
-        h2 {
-            font-family: Arial, sans-serif;
-            font-size: 20px;
-            font-weight: bold;
+        .logo {
+            width: 100px;
+            margin: 20px;
         }
         label {
+            font-weight: bold;
             display: block;
             text-align: left;
-            font-weight: bold;
-            margin-top: 15px;
+            margin-top: 20px;
+            font-size: 14px;
         }
         select, input {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
-            border: 1px solid #ccc;
             border-radius: 5px;
+            border: 2px solid #ccc;
         }
-        button {
-            width: 100%;
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .row input {
+            width: 48%;
+        }
+        .btn {
+            background: #ffcc00;
             padding: 10px;
-            background: orange;
-            color: blue;
-            border: none;
+            border: 2px solid #ccc;
             border-radius: 5px;
-            font-size: 14px;
+            width: 100%;
             font-weight: bold;
             cursor: pointer;
             margin-top: 15px;
+            font-size: 16px;
         }
-        button:hover {
-            background: yellow;
-        }
-        .dashboard-link {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .note {
+        .disclaimer {
             font-size: 12px;
-            margin-top: 10px;
-            color: #555;
+            color: white;
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px;
         }
     </style>
+    <script>
+        const lokasiData = {
+            "HQ": ["STOR PUSAT"],
+			"JOHOR": ["BATU PAHAT", "JOHOR BHARU", "KLUANG", "MERSING", "MOBILE JOHOR", "MUAR", "PONTIAN", "SEGAMAT", "UTC KOTA RAYA", "UTC PASIR GUDANG"],
+			"KEDAH": ["ALOR SETAR", "ANAK BUKIT", "BALING", "KULIM", "LANGKAWI", "MOBILE KEDAH", "STOR UTAMA", "SUNGAI PETANI", "UTC ALOR SETAR", "UTC SUNGAI PETANI"],
+			"KELANTAN": ["GUA MUSANG", "KOTA BHARU", "MACHANG", "MOBILE KELANTAN 533", "STOR UTAMA", "UTC KELANTAN"],
+			"MELAKA": ["JASIN", "MASJID TANAH", "MELAKA TENGAH", "MOBILE MELAKA 511", "STOR UTAMA", "UTC MELAKA"],
+			"NEGERI SEMBILAN": ["JEMPOL", "KUALA PILAH", "MOBILE K1", "SEREMBAN", "STOR UTAMA", "UTC SEREMBAN"],
+			"PAHANG": ["BANDAR MUADZAM SHAH", "BENTONG", "CAMERON HIGHLAND", "JENGKA", "KUANTAN", "MOBILE PAHANG", "RAUB", "STOR UTAMA", "TEMERLOH", "UTC KUANTAN"],
+			"PERAK": ["GERIK", "IPOH", "MOBILE IPOH", "MOBILE PERAK 6776", "SP KUALA KANGSAR", "SRI MANJUNG", "STOR UTAMA", "TAIPING", "TAPAH", "TELUK INTAN", "UTC IPOH"],
+			"PERLIS": ["ARAU", "MOBILE PERLIS", "STOR UTAMA", "UTC PERLIS"],
+			"PULAU PINANG": ["BATU UBAN", "MOBILE PULAU PINANG 233", "SEBERANG JAYA", "STOR UTAMA", "UTC KOMTAR"],
+			"SABAH": ["BEAUFORT", "KENINGAU", "KOTA BELUD", "KOTA KINABALU", "KOTA MARUDU", "KUDAT", "LABUAN", "LAHAD DATU", "MOBILE KINABALU", "MOBILE SANDAKAN", "PANDU LALU", "PAPAR", "RANAU", "SANDAKAN", "SEMPORNA", "SIPITANG", "STOR UTAMA", "TAMBUNAN", "TAWAU", "TENOM", "TUARAN", "UTC KENINGAU", "UTC KOTA KINABALU", "UTC TAWAU"],
+            "SARAWAK": ["BETONG", "BINTULU", "KAPIT", "KUCHING", "LAWAS", "LIMBANG", "MIRI", "MOBILE BINTULU", "MOBILE MIRI", "MOBILE TRUCK KUCHING", "MOBILE VAN KUCHING", "MUKAH", "SARIKEI", "SERIAN", "SIBU", "SRI AMAN", "STOR UTAMA", "UTC KUCHING", "UTC MIRI", "UTC SIBU"],
+			"SELANGOR": ["BANGI", "BANTING", "KUALA KUBU BARU", "KUALA SELANGOR", "MOBILE SELANGOR 4884", "PADANG JAWA", "PETALING JAYA", "SABAK BERNAM", "STOR UTAMA", "UTC SHAH ALAM"],
+            "TERENGGANU": ["BESUT", "KEMAMAN", "KUALA TERENGGANU", "MOBILE TERENGGANU 433", "STOR UTAMA", "UTC TERENGGANU"],
+            "WP KUALA LUMPUR": ["BANDAR SRI PERMAISURI", "GALERIA PUTRAJAYA", "KUALA LUMPUR", "MANJALARA", "MOBILE PUTRAJAYA 211", "MOBILE WPKL 4554", "UTC KERAMAT", "UTC PUDU", "UTC SENTUL"]
+
+        };
+
+        function updateLokasi() {
+            const negeriSelect = document.getElementById("negeri");
+            const lokasiSelect = document.getElementById("lokasi");
+            const selectedNegeri = negeriSelect.value;
+
+            lokasiSelect.innerHTML = '<option value="">PILIH LOKASI</option>';
+
+            if (selectedNegeri && lokasiData[selectedNegeri]) {
+                lokasiData[selectedNegeri].forEach(lokasi => {
+                    let option = document.createElement("option");
+                    option.value = lokasi;
+                    option.textContent = lokasi;
+                    lokasiSelect.appendChild(option);
+                });
+            }
+        }
+
+        function validateForm() {
+            let inputs = document.querySelectorAll('input, select');
+            for (let input of inputs) {
+                if (input.value.trim() === "" || input.value === "Pilih Negeri" || input.value === "Pilih Lokasi" || input.value === "Pilih Transaksi") {
+                    alert("MAKLUMAT TIDAK LENGKAP");
+                    return;
+                }
+            }
+
+            let formData = new FormData(document.getElementById("inventoryForm"));
+            fetch("https://script.google.com/macros/s/AKfycby-gqtsP0PmJgJn4WJC3uhTjzGS1jQg2YLVFHvCqHj3KrQ9ErtUCQldVKp0C0LSwX8O/exec", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "SUCCESS") {
+                    alert("REKOD BERJAYA! TERIMA KASIH.");
+                    document.getElementById("inventoryForm").reset();
+                    document.getElementById("tarikh").valueAsDate = new Date(); 
+                } else {
+                    alert("GAGAL MENYIMPAN DATA");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
 </head>
 <body>
-
+    <img src="https://i.postimg.cc/h4CXXqZd/JPJ-logo.png" alt="Logo" class="logo">
+    <h2 style="color: white;">REKOD INVENTORI</h2>
     <div class="container">
-        <img src="https://i.postimg.cc/h4CXXqZd/JPJ-logo.png" alt="Logo JPJ">
-        <h2>REKOD INVENTORI JPJ (M)</h2>
-
-        <form id="myForm">
-            <label for="negeri">NEGERI:</label>
-            <select id="negeri" name="negeri">
-                <option value="">PILIH NEGERI</option>
+        <form id="inventoryForm">
+            <label>NEGERI:</label>
+            <select id="negeri" name="negeri" onchange="updateLokasi()">
+                <option value="">Pilih Negeri</option>
                 <option value="HQ">HQ</option>
-                <option value="JOHOR">JOHOR</option>
+               	<option value="JOHOR">JOHOR</option>
                 <option value="KEDAH">KEDAH</option>
-                <option value="KELANTAN">KELANTAN</option>
+              	<option value="KELANTAN">KELANTAN</option>
                 <option value="MELAKA">MELAKA</option>
                 <option value="NEGERI SEMBILAN">NEGERI SEMBILAN</option>
                 <option value="PAHANG">PAHANG</option>
@@ -100,130 +156,45 @@
                 <option value="WP KUALA LUMPUR">WP KUALA LUMPUR</option>
             </select>
 
-            <label for="lokasi">LOKASI:</label>
+            <label>LOKASI:</label>
             <select id="lokasi" name="lokasi">
-                <option value="">PILIH LOKASI</option>
+                <option value="">Pilih Lokasi</option>
             </select>
 
-            <label for="dokumen">DOKUMEN:</label>
-            <select id="dokumen" name="dokumen">
-                <option value="">PILIH DOKUMEN</option>
-                <option value="LMM">LMM</option>
-		<option value="LMM-PKN">LMM-PKN</option>    
-                <option value="SLIP LMM">SLIP LMM</option>
-		<option value="LDL">LDL</option>
-		<option value="SLIP LDL">SLIP LDL</option>
-		<option value="VOKASIONAL">VOKASIONAL</option>
-		<option value="IDP">IDP</option>
-            </select>
+            <label>KUANTITI DOKUMEN:</label>
+            <div class="row">
+                <input type="number" name="lmm" placeholder="LMM">
+                <input type="number" name="slip_lmm" placeholder="SLIP LMM">
+            </div>
+            <div class="row">
+                <input type="number" name="ldl" placeholder="LDL">
+                <input type="number" name="slip_ldl" placeholder="SLIP LDL">
+            </div>
+            <div class="row">
+                <input type="number" name="vokasional" placeholder="VOKASIONAL">
+                <input type="number" name="idp" placeholder="IDP">
+            </div>
 
-            <label for="transaksi">TRANSAKSI:</label>
-            <select id="transaksi" name="transaksi">
-                <option value="">PILIH TRANSAKSI</option>
+            <label>TRANSAKSI:</label>
+            <select name="transaksi">
+                <option value="">Pilih Transaksi</option>
                 <option value="MASUK">MASUK</option>
                 <option value="KELUAR">KELUAR</option>
-		<option value="ROSAK">ROSAK</option>
+                <option value="ROSAK">JUALAN</option>
             </select>
 
-            <label for="kuantiti">KUANTITI:</label>
-            <input type="number" id="kuantiti" name="kuantiti">
+            <label>TARIKH:</label>
+            <input type="date" id="tarikh" name="tarikh" value="">
 
-            <label for="tarikh">TARIKH:</label>
-            <input type="date" id="tarikh" name="tarikh">
+            <label>NAMA PENYEDIA:</label>
+            <input type="text" name="nama_penyedia">
 
-            <label for="nama_penyedia">NAMA PENYEDIA (HURUF BESAR):</label>
-            <input type="text" id="nama_penyedia" name="nama_penyedia" oninput="convertToUpper(this)">
+            <button type="button" class="btn" onclick="validateForm()">HANTAR</button>
 
-            <button type="button" id="submitBtn">SUBMIT</button>
+            <p style="font-size: 12px; text-align: center; font-style: italic;">Pastikan semua maklumat diisi dengan lengkap dan tepat sebelum dihantar.</p>
+            <a href="#">LINK</a>
         </form>
-
-        <div class="dashboard-link">
-            <a href="https://your-dashboard-link.com" target="_blank">DASHBOARD</a>
-        </div>
-
-        <div class="note">
-            * Pastikan semua maklumat diisi dengan lengkap sebelum dihantar.
-        </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Auto-uppercase untuk Nama Penyedia
-            function convertToUpper(input) {
-                input.value = input.value.toUpperCase();
-            }
-
-            // Set default tarikh ke hari ini
-            document.getElementById("tarikh").valueAsDate = new Date();
-
-            // Data Negeri & Lokasi
-            const lokasiData = {
-                "HQ": ["STOR PUSAT"],
-				"JOHOR": ["BATU PAHAT", "JOHOR BHARU", "KLUANG", "MERSING", "MOBILE JOHOR", "MUAR", "PONTIAN", "SEGAMAT", "UTC KOTA RAYA", "UTC PASIR GUDANG"],
-				"KEDAH": ["ALOR SETAR", "ANAK BUKIT", "BALING", "KULIM", "LANGKAWI", "MOBILE KEDAH", "STOR UTAMA", "SUNGAI PETANI", "UTC ALOR SETAR", "UTC SUNGAI PETANI"],
-				"KELANTAN": ["GUA MUSANG", "KOTA BHARU", "MACHANG", "MOBILE KELANTAN 533", "STOR UTAMA", "UTC KELANTAN"],
-				"MELAKA": ["JASIN", "MASJID TANAH", "MELAKA TENGAH", "MOBILE MELAKA 511", "STOR UTAMA", "UTC MELAKA"],
-				"NEGERI SEMBILAN": ["JEMPOL", "KUALA PILAH", "MOBILE K1", "SEREMBAN", "STOR UTAMA", "UTC SEREMBAN"],
-				"PAHANG": ["BANDAR MUADZAM SHAH", "BENTONG", "CAMERON HIGHLAND", "JENGKA", "KUANTAN", "MOBILE PAHANG", "RAUB", "STOR UTAMA", "TEMERLOH", "UTC KUANTAN"],
-				"PERAK": ["GERIK", "IPOH", "MOBILE IPOH", "MOBILE PERAK 6776", "SP KUALA KANGSAR", "SRI MANJUNG", "STOR UTAMA", "TAIPING", "TAPAH", "TELUK INTAN", "UTC IPOH"],
-				"PERLIS": ["ARAU", "MOBILE PERLIS", "STOR UTAMA", "UTC PERLIS"],
-				"PULAU PINANG": ["BATU UBAN", "MOBILE PULAU PINANG 233", "SEBERANG JAYA", "STOR UTAMA", "UTC KOMTAR"],
-				"SABAH": ["BEAUFORT", "KENINGAU", "KOTA BELUD", "KOTA KINABALU", "KOTA MARUDU", "KUDAT", "LABUAN", "LAHAD DATU", "MOBILE KINABALU", "MOBILE SANDAKAN", "PANDU LALU", "PAPAR", "RANAU", "SANDAKAN", "SEMPORNA", "SIPITANG", "STOR UTAMA", "TAMBUNAN", "TAWAU", "TENOM", "TUARAN", "UTC KENINGAU", "UTC KOTA KINABALU", "UTC TAWAU"],
-                "SARAWAK": ["BETONG", "BINTULU", "KAPIT", "KUCHING", "LAWAS", "LIMBANG", "MIRI", "MOBILE BINTULU", "MOBILE MIRI", "MOBILE TRUCK KUCHING", "MOBILE VAN KUCHING", "MUKAH", "SARIKEI", "SERIAN", "SIBU", "SRI AMAN", "STOR UTAMA", "UTC KUCHING", "UTC MIRI", "UTC SIBU"],
-				"SELANGOR": ["BANGI", "BANTING", "KUALA KUBU BARU", "KUALA SELANGOR", "MOBILE SELANGOR 4884", "PADANG JAWA", "PETALING JAYA", "SABAK BERNAM", "STOR UTAMA", "UTC SHAH ALAM"],
-                "TERENGGANU": ["BESUT", "KEMAMAN", "KUALA TERENGGANU", "MOBILE TERENGGANU 433", "STOR UTAMA", "UTC TERENGGANU"],
-                "WP KUALA LUMPUR": ["BANDAR SRI PERMAISURI", "GALERIA PUTRAJAYA", "KUALA LUMPUR", "MANJALARA", "MOBILE PUTRAJAYA 211", "MOBILE WPKL 4554", "UTC KERAMAT", "UTC PUDU", "UTC SENTUL"]
-            };
-
-            function updateLokasi() {
-                const negeriSelect = document.getElementById("negeri");
-                const lokasiSelect = document.getElementById("lokasi");
-
-                lokasiSelect.innerHTML = '<option value="">PILIH LOKASI</option>';
-
-                if (lokasiData[negeriSelect.value]) {
-                    lokasiData[negeriSelect.value].forEach(lokasi => {
-                        let option = document.createElement("option");
-                        option.value = lokasi;
-                        option.textContent = lokasi;
-                        lokasiSelect.appendChild(option);
-                    });
-                }
-            }
-
-            document.getElementById("negeri").addEventListener("change", updateLokasi);
-
-            // Validasi Form & Hantar ke Google Sheets
-            function validateForm() {
-                const formData = new FormData(document.getElementById("myForm"));
-
-                for (let pair of formData.entries()) {
-                    if (!pair[1]) {
-                        alert("DATA TIDAK LENGKAP");
-                        return;
-                    }
-                }
-
-                fetch("https://script.google.com/macros/s/AKfycbwSwIKoR5AAp1cMxO2EIknjrqBGf7NxddtMrZujbX0sYe8ki3xS9Q7KMnYo8Nv5hK9v/exec", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(data => {
-                    if (data.trim() === "SUCCESS") {
-                        alert("REKOD BERJAYA");
-                        document.getElementById("myForm").reset();
-                        document.getElementById("tarikh").valueAsDate = new Date();
-                    } else {
-                        alert("GAGAL MENYIMPAN DATA");
-                    }
-                })
-                .catch(error => console.error("Error:", error));
-            }
-
-            document.getElementById("submitBtn").addEventListener("click", validateForm);
-        });
-    </script>
-
+    <p class="disclaimer">Bahagian Pelesenan Pemandu (M)</p>
 </body>
 </html>
