@@ -188,7 +188,10 @@
             </select>
 
             <label>TARIKH:</label>
-            <input type="date" id="tarikh" name="tarikh" value="">
+            <input type="date" id="tarikh" name="tarikh" required>
+		<script>
+		document.getElementById("tarikh").valueAsDate = new Date();
+		</script>
 
             <label>NAMA PENYEDIA (HURUF BESAR):</label>
             <input type="text" name="nama_penyedia">
